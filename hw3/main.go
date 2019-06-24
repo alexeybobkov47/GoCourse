@@ -45,6 +45,7 @@ func main() {
 		Window: no
 		Trunkload: 22
 	*/
+	fmt.Println()
 	var a1 = car{"C5", 2019, 34, "yes", "no", 22}
 	var a2 = a1
 	var a3 = car{"WW338", 2019, 21, "no", "no", 14}
@@ -59,7 +60,7 @@ func main() {
 	Год выпуска a1, a2 и а3 одинаковый
 	false
 	*/
-
+	fmt.Println()
 	// Сравнение структур
 	if a1 == a2 {
 		if a1 != a3 {
@@ -75,5 +76,53 @@ func main() {
 		}
 	}
 	// a1 равен а2 и не равен а3
+	fmt.Println()
 
+	// Очередь стек
+
+	push("Я первый в очереди")
+	push("Я второй в очереди")
+	push("Я третий в очереди")
+	push("Я последний в очереди")
+	push("Я следующий в очереди 1")
+	fmt.Println(pop())
+	fmt.Println(pop())
+	push("Я следующий в очереди 2")
+	fmt.Println(pop())
+	fmt.Println(pop())
+	push("Я следующий в очереди 3")
+	push("Я в какой то в очереди")
+	fmt.Println(pop())
+	fmt.Println(pop())
+	fmt.Println(pop())
+	fmt.Println(pop())
+	fmt.Println(pop())
 }
+
+var x []string // переменная для стека
+
+func push(str string) {
+	x = append(x, str)
+}
+
+func pop() string {
+	numOfElements := len(x)
+	if numOfElements == 0 {
+		return "Никого нет"
+	}
+	popElem := x[0]
+	x = x[1:numOfElements]
+	return popElem
+}
+
+/*
+Я первый в очереди
+Я второй в очереди
+Я третий в очереди
+Я последний в очереди
+Я следующий в очереди 1
+Я следующий в очереди 2
+Я следующий в очереди 3
+Я в какой то в очереди
+Никого нет
+*/
