@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"sort"
 
 	"io"
 	"os"
@@ -16,6 +17,8 @@ type cars struct {
 	price    string `csv:"price"`
 }
 
+var car []cars
+
 func main() {
 	csvFile, err := os.Open("test.csv")
 	if err != nil {
@@ -24,7 +27,6 @@ func main() {
 	defer csvFile.Close()
 	reader := csv.NewReader(csvFile)
 	for {
-		var car []cars
 
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -32,16 +34,29 @@ func main() {
 		} else if err != nil {
 			return
 		}
-		fmt.Println(record)
-
 		car = append(car, cars{
-			year:     record[0],
-			carbrand: record[1],
-			carmodel: record[2],
-			comment:  record[3],
-			price:    record[4],
+			year: record[0], carbrand: record[1], carmodel: record[2], comment: record[3], price: record[4],
 		})
-		fmt.Println(car)
-
 	}
+
+	sort.Slice(car, func(i, j int) bool {
+		return car[i].carmodel > car[j].carmodel
+	})
+	fmt.Println(car)
+	sort.Slice(car, func(i, j int) bool {
+		return car[i].price < car[j].price
+
+	})
+	fmt.Println(car)
+	sort.Slice(car, func(i, j int) bool {
+		return car[i].year < car[j].year
+
+	})
+	fmt.Println(car)
+
+	/*
+	   [{1999 Chevy Venture «Extended Edition»  4900.00} {1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1997 Ford E350 ac, abs, moon 3000.00}]
+	   [{1997 Ford E350 ac, abs, moon 3000.00} {1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1999 Chevy Venture «Extended Edition»  4900.00}]
+	   [{1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1997 Ford E350 ac, abs, moon 3000.00} {1999 Chevy Venture «Extended Edition»  4900.00}]
+	*/
 }
