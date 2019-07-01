@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"io/ioutil"
 	"sort"
 
 	"io"
@@ -58,5 +59,24 @@ func main() {
 	   [{1999 Chevy Venture «Extended Edition»  4900.00} {1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1997 Ford E350 ac, abs, moon 3000.00}]
 	   [{1997 Ford E350 ac, abs, moon 3000.00} {1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1999 Chevy Venture «Extended Edition»  4900.00}]
 	   [{1996 Jeep Grand Cherokee MUST SELL! air, moon roof, loaded 4799.00} {1997 Ford E350 ac, abs, moon 3000.00} {1999 Chevy Venture «Extended Edition»  4900.00}]
+
 	*/
+
+	openfile()
+
+}
+func openfile() {
+
+	fi, _ := os.Stat("main.go")
+
+	if fi.Size() > 1000 {
+		fmt.Println("Слишком большой файл. Размер файла:", fi.Size())
+	} else {
+		bs, err := ioutil.ReadFile("main.go")
+		if err != nil {
+			return
+		}
+		fmt.Println(string(bs))
+	}
+
 }
