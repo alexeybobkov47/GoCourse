@@ -13,7 +13,7 @@ func main() {
 	white := color.RGBA{255, 255, 255, 255}
 	red := color.RGBA{255, 0, 0, 255}
 	blue := color.RGBA{0, 0, 255, 255}
-	img := image.NewRGBA(image.Rect(0, 0, 501, 501))
+	img := image.NewRGBA(image.Rect(0, 0, 400, 400))
 	// Красим фон в белый.
 	draw.Draw(img, img.Bounds(), &image.Uniform{white}, image.ZP, draw.Src)
 	// Горизонтальные красные полосы
