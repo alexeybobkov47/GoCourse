@@ -29,7 +29,7 @@ func main() {
 		}
 	}
 
-	file, err := os.Create("img.png")
+	file, err := os.Create("chess_img.png")
 	if err != nil {
 		log.Fatalf("Failed create file: %s", err)
 	}
