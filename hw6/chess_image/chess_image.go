@@ -11,21 +11,23 @@ import (
 
 func main() {
 	white := color.RGBA{255, 255, 255, 255}
-	red := color.RGBA{255, 0, 0, 255}
-	blue := color.RGBA{0, 0, 255, 255}
+	black := color.RGBA{0, 0, 0, 255}
 	img := image.NewRGBA(image.Rect(0, 0, 400, 400))
+
 	// Красим фон в белый.
 	draw.Draw(img, img.Bounds(), &image.Uniform{white}, image.ZP, draw.Src)
-	// Горизонтальные красные полосы
-	for y := 0; y <= 500; y = y + 50 {
-		for x := 0; x <= 500; x++ {
-			img.Set(x, y, red)
+	// Делаем черные квадраты 1
+	for y1, y2 := 0, 50; y2 <= 400; y1, y2 = y1+100, y2+100 {
+		for x1, x2 := 50, 100; x1 <= 400; x1, x2 = x1+100, x2+100 {
+			img2 := image.Rect(x1, y1, x2, y2)
+			draw.Draw(img, img2, &image.Uniform{black}, image.ZP, draw.Src)
 		}
 	}
-	// Вертикальные синии полосы
-	for x := 0; x <= 500; x = x + 50 {
-		for y := 0; y <= 500; y++ {
-			img.Set(x, y, blue)
+	// Делаем черные квадраты 2
+	for y1, y2 := 50, 100; y2 <= 400; y1, y2 = y1+100, y2+100 {
+		for x1, x2 := 0, 50; x1 <= 400; x1, x2 = x1+100, x2+100 {
+			img2 := image.Rect(x1, y1, x2, y2)
+			draw.Draw(img, img2, &image.Uniform{black}, image.ZP, draw.Src)
 		}
 	}
 
