@@ -2,30 +2,27 @@ package main
 
 import (
 	"io"
-	"log"
-	"net"
-	"time"
+	"net/http"
 )
 
+func hello(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "text/html")
+	io.WriteString(res,
+		`<doctype html>
+<html>
+	<head>
+    	<title>Hello World!</title>
+	</head>
+	<body>
+    	Hello World!
+	</body>
+</html>`)
+}
+
 func main() {
-	listener, err := net.Listen("tcp", "localhost:8000")
-	if err != nil {
-		log.Fatal(err)
-	}
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			log.Print(err)
-			continue
-		}
-		for {
-			_, err = io.WriteString(conn, "Hello tcp-world!\r\n")
-			if err != nil {
-				log.Print(err)
-				return
-			}
-			time.Sleep(1 * time.Second)
-		}
-		defer conn.Close()
-	}
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/", fs)
+	http.HandleFunc("/hello", hello)
+
+	http.ListenAndServe(":80", nil)
 }
