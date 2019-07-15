@@ -54,18 +54,20 @@ func broadcaster() {
 func handleConn(conn net.Conn) {
 	ch := make(chan string)
 	go clientWriter(conn, ch)
-	t := time.Now()
+	// Добавил переменную с текущим временем
+	t := time.Now().Format("15:04:05")
 	who := conn.RemoteAddr().String()
+
 	ch <- "You are " + who
-	messages <- who + " has arrived"
+	messages <- t + ": " + who + " has arrived"
 	entering <- ch
 
 	input := bufio.NewScanner(conn)
 	for input.Scan() {
-		messages <- who + ": " + input.Text()
+		messages <- t + ": " + who + ": " + input.Text()
 	}
 	leaving <- ch
-	messages <- who + " has left"
+	messages <- t + ": " + who + " has left"
 	conn.Close()
 }
 
@@ -74,3 +76,13 @@ func clientWriter(conn net.Conn, ch <-chan string) {
 		fmt.Fprintln(conn, msg)
 	}
 }
+
+/*
+11ap.abobkov@11AP-PC-108 MINGW64 ~/go/src/GoCourse/hw8/chat/client (homework8)
+$ go run chat-client.go
+You are 127.0.0.1:27935
+hi
+15:48:30: 127.0.0.1:27935: hi
+15:49:01: 127.0.0.1:27945 has arrived
+15:49:01: 127.0.0.1:27945: hi all
+*/
