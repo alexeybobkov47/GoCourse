@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 )
 
 type client chan<- string
@@ -53,7 +54,7 @@ func broadcaster() {
 func handleConn(conn net.Conn) {
 	ch := make(chan string)
 	go clientWriter(conn, ch)
-
+	t := time.Now()
 	who := conn.RemoteAddr().String()
 	ch <- "You are " + who
 	messages <- who + " has arrived"
